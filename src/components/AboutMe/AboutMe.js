@@ -2,7 +2,7 @@ import photo from "../../images/photo.jpg"
 
 function AboutMe() {
   return (
-    <section className="section-width about-me">
+    <section id="about_me" className="section-width about-me">
       <h2 className="section-header about-me__title">Студент</h2>
       <div className="about-me__flex-container">
         <div className="about-me__container">

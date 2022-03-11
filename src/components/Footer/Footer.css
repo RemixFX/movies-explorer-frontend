@@ -17,17 +17,20 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-top: 20px;
 }
 
 .footer__copyright {
   font-size: 13px;
   line-height: 15.73px;
+  margin: 0;
 }
 
 .footer__links {
   padding-left: 0px;
   list-style-type: none;
   display: flex;
+  margin: 0;
 }
 
 .footer__list {

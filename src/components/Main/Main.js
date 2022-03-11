@@ -1,4 +1,3 @@
-import Anchor from "../../utils/Anchor";
 import AboutMe from "../AboutMe/AboutMe";
 import AboutProject from "../AboutProject/AboutProject";
 import Footer from "../Footer/Footer";
@@ -14,15 +13,9 @@ function Main() {
       <Header></Header>
       <Promo></Promo>
       <NavTab></NavTab>
-      <Anchor name="about_project">
       <AboutProject />
-      </Anchor>
-      <Anchor name="techs">
-        <Techs/>
-      </Anchor>
-      <Anchor name="about_me">
+      <Techs/>
       <AboutMe />
-      </Anchor>
       <Portfolio></Portfolio>
       <Footer></Footer>
   </main>

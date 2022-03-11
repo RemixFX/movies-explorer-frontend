@@ -2,6 +2,10 @@
   background-color: #073042;
 }
 
+.header_background_black {
+  background-color: inherit;
+}
+
 .header__container {
   display: flex;
   justify-content: space-between;
@@ -12,6 +16,11 @@
 .header__logo {
   width: 38px;
   height: 38px;
+}
+
+.header__buttons {
+  display: flex;
+  align-items: center;
 }
 
 .header__buttton-register {
@@ -33,4 +42,22 @@
   background-color: #3DDC84;
   border: none;
   border-radius: 3px;
+}
+
+.header__profile {
+  display: flex;
+  align-items: center;
+  padding-left: 61px;
+}
+
+.header__profile-text {
+  font-size: 13px;
+  line-height: 12px;
+  font-weight: 500;
+}
+
+.header__profile-logo {
+  height: 26px;
+  width: 26px;
+  padding-left: 7px;
 }

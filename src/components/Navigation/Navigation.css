@@ -1,0 +1,26 @@
+.navigation {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+}
+
+.navigation__buttons {
+  padding-right: 20px;
+}
+
+.navigation__buttons:last-of-type {
+  padding-right: 0;
+}
+
+.navigation__button {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.active {
+  font-weight: 500;
+}
