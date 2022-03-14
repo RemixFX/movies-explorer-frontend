@@ -32,7 +32,9 @@
 .promo__title {
   font-size: 50px;
   line-height: 58px;
+  font-weight: 400;
   text-align: center;
+  letter-spacing: -0.04em;
   max-width: 730px;
   padding-top: 184px;
   padding-bottom: 224px;
@@ -46,4 +48,40 @@
   animation-name: to-appear, gradient;
   animation-duration: 4s, 8s;
   animation-fill-mode: forwards, backwards;
+}
+
+@media screen and (max-width: 840px) {
+  .promo__title {
+    padding-top: 326px;
+    padding-bottom: 342px;
+  }
+}
+
+@media screen and (max-width: 740px) {
+  .promo__title {
+    max-width: 540px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .promo__title {
+    font-size: 41px;
+    line-height: 49px;
+    max-width: 420px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .promo__title {
+    font-size: 31px;
+    line-height: 39px;
+    padding-top: 207px;
+    padding-bottom: 246px;
+    max-width: 300px;
+  }
+
+  .promo__logo {
+    height: 248px;
+    width: 248px;
+  }
 }

@@ -23,41 +23,50 @@
   align-items: center;
 }
 
-.header__buttton-register {
+.header__button-register {
   font-size: 12px;
   line-height: 16px;
   font-weight: 500;
-  border: none;
   background-color: transparent;
   color: #FFFFFF;
   padding-right: 30px;
+  text-decoration: none;
 }
 
-.header__buttton-login {
-  height: 32px;
-  width: 76px;
+.header__button-login {
   font-size: 12px;
   line-height: 16px;
   font-weight: 500;
   background-color: #3DDC84;
-  border: none;
+  padding: 8px 20px;
+  text-decoration: none;
   border-radius: 3px;
+  color: #000000;
 }
 
 .header__profile {
   display: flex;
   align-items: center;
-  padding-left: 61px;
+  margin-left: 61px;
+  text-decoration: none;
 }
 
 .header__profile-text {
   font-size: 13px;
   line-height: 12px;
   font-weight: 500;
+  color: #FFFFFF;
 }
 
 .header__profile-logo {
   height: 26px;
   width: 26px;
   padding-left: 7px;
+}
+
+@media screen and (max-width: 420px) {
+  .header {
+    padding-right: 4px;
+    padding-left: 4px;
+  }
 }
