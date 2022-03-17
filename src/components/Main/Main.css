@@ -2,6 +2,7 @@
   font-size: 22px;
   line-height: 26.6px;
   font-weight: 400;
+  letter-spacing: -0.04em;
   border-bottom: 1px solid #DADADA;
   margin: 0;
   padding-bottom: 23px;
@@ -17,15 +18,27 @@
 
 @media screen and (max-width: 840px) {
   .section-width {
-    max-width: 768px;
-    padding-right: 30px;
-    padding-left: 30px;
+    padding-right: 50px;
+    padding-left: 50px;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .section-width {
+    padding-right: 25px;
+    padding-left: 25px;
   }
 }
 
 @media screen and (max-width: 420px) {
   .section-width {
-    padding-right: 10px;
-    padding-left: 10px;
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .section-header {
+    font-size: 18px;
+    line-height: 21.8px;
+    padding-bottom: 28px;
   }
 }

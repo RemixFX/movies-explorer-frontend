@@ -1,6 +1,6 @@
 function SearchForm() {
   return (
-    <section className="section-width">
+    <section className="section-width section__search-form">
       <form className="search-form">
         <div className="search-form__container">
           <input type="text" autoComplete="off" name="movies" placeholder="Фильм"

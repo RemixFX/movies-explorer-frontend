@@ -82,3 +82,40 @@
   background-color: inherit;
   cursor: pointer;
 }
+
+@media screen and (max-width: 890px) {
+  .profile {
+    padding-top: 236px;
+  }
+
+  .profile-form {
+    padding-top: 96px;
+  }
+
+  .profile-form__submit-button {
+    margin-top: 190px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .profile {
+    padding-top: 70px;
+    padding-bottom: 40px;
+  }
+
+  .profile-form {
+    padding-top: 80px;
+    width: 260px;
+  }
+
+  .profile-form__submit-button {
+    margin-top: 359px;
+    font-size: 12px;
+    line-height: 14.52px;
+  }
+
+  .profile__signout {
+    font-size: 12px;
+    line-height: 14.52px;
+  }
+}

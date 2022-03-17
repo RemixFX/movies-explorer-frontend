@@ -3,6 +3,10 @@ import { NavLink } from 'react-router-dom';
 function Navigation() {
   return (
     <ul className="navigation">
+      <li className='navigation__buttons'>
+      <NavLink to="/" className="navigation__button navigation__main">
+          Главная</NavLink>
+      </li>
       <li className="navigation__buttons">
         <NavLink to="/movies" className="navigation__button navigation__movies">
           Фильмы</NavLink>

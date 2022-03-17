@@ -40,3 +40,36 @@
 .movies-list__button:hover {
   opacity: 0.7;
 }
+
+@media screen and (max-width: 890px) {
+  .movies-list {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .movies-list__grid {
+    grid-template-columns: repeat(auto-fill, minmax(339px, 1fr));
+    padding-bottom: 30px;
+    row-gap: 30px;
+    column-gap: 30px;
+    min-height: auto;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .movies-list {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 40px;
+  }
+
+  .movies-list__grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    padding-bottom: 26px;
+    row-gap: 14px;
+  }
+
+  .movies-list__button {
+    width: 240px;
+  }
+}

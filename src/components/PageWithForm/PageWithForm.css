@@ -59,3 +59,43 @@
   color: #4285F4;
   text-decoration: none;
 }
+
+@media screen and (max-width: 768px) {
+  .page-form {
+    padding-top: 232px;
+    padding-bottom: 232px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .page-form {
+    padding-top: 56px;
+    padding-bottom: 30px;
+    max-width: 260px;
+  }
+
+  .page-form__logo {
+    align-self: center;
+  }
+
+  .page-form__header {
+    padding-top: 50px;
+    padding-bottom: 80px;
+    align-self: center;
+  }
+
+  .form__submit-button {
+    margin-top: 157px;
+    font-size: 12px;
+    line-height: 14.52px;
+  }
+
+  .form__container {
+    padding-top: 14px;
+    font-size: 12px;
+    line-height: 14.52px;
+  }
+  .form__submit-button_type_login {
+    margin-top: 245px;
+  }
+}

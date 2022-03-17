@@ -18,3 +18,10 @@
   padding-bottom: 25px;
   padding-left: 40px;
 }
+
+@media screen and (max-width: 420px) {
+  .navtab__link {
+    font-size: 11px;
+    padding-left: 24px;
+  }
+}

@@ -4,7 +4,6 @@
   align-items: center;
   padding-top: 246px;
   padding-bottom: 60px;
-  max-width: 400px;
   margin: auto;
 }
 
@@ -35,4 +34,35 @@
 
 .not-found__link:hover {
   opacity: 0.7;
+}
+
+@media screen and (max-width: 768px) {
+  .not-found {
+    padding-top: 408px;
+    padding-bottom: 222px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .not-found {
+    padding-top: 329px;
+    padding-bottom: 30px;
+  }
+
+  .not-found__tittle {
+    font-size: 80px;
+    line-height: 97px;
+  }
+
+  .not-found__subtittle {
+    font-size: 12px;
+    line-height: 14.52px;
+    padding-top: 10px;
+    padding-bottom: 284px;
+  }
+
+  .not-found__link {
+    font-size: 12px;
+    line-height: 14.52px;
+  }
 }

@@ -8,7 +8,8 @@ function PageWithForm(props) {
       <h2 className="page-form__header">{props.header}</h2>
       <form className="form">
         {props.children}
-        <button className="form__submit-button">{props.buttonName}</button>
+        <button className={`form__submit-button ${props.additionalClass}`}>
+          {props.buttonName}</button>
         <div className="form__container">
           <p className="form__container-heading" >{props.registerText}</p>
           <Link to={props.link} className="form__link">{props.nameLink}</Link>

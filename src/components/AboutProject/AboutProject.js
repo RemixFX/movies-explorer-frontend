@@ -17,10 +17,10 @@ function AboutProject() {
       <div className="about-project__digits">
         <div className="about-project__blocks about-project__digits_block_back-end">
           1 неделя</div>
-        <span className="about-project_mark_back-end">Back-end</span>
+        <span className="about-project__mark">Back-end</span>
         <div className="about-project__blocks about-project__digits_block_front-end">
           4 недели</div>
-        <span className="about-project_mark_front-end">Front-end</span>
+        <span className="about-project__mark">Front-end</span>
       </div>
     </section>
   )
