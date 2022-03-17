@@ -54,6 +54,11 @@
   font-weight: 500;
   color: #FFFFFF;
   text-decoration: none;
+  transition: all 0.1s linear;
+}
+
+.about-me__link:hover {
+  opacity: 0.7;
 }
 
 .about-me__photo {

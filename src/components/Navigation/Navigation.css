@@ -23,6 +23,11 @@
   font-weight: 400;
   color: #FFFFFF;
   text-decoration: none;
+  transition: all 0.1s linear;
+}
+
+.navigation__button:hover {
+  opacity: 0.7;
 }
 
 .active {

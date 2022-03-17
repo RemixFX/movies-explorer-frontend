@@ -40,6 +40,11 @@
 .portfolio__link-arrow {
   height: 18px;
   padding: 19px 6px;
+  transition: all 0.1s linear;
+}
+
+.portfolio__link-arrow:hover {
+  opacity: 0.6;
 }
 
 @media screen and (max-width: 840px) {

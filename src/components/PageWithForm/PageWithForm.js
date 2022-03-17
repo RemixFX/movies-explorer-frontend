@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 function PageWithForm(props) {
   return (
     <section className="page-form">
-      <img className="page-form__logo" src={logo} alt="логотип зеленый круг" />
+      <Link to="/">
+        <img className="page-form__logo" src={logo} alt="логотип зеленый круг" />
+      </Link>
       <h2 className="page-form__header">{props.header}</h2>
       <form className="form">
         {props.children}

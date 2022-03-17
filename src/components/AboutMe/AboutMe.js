@@ -26,7 +26,7 @@ function AboutMe() {
             </li>
           </ul>
         </div>
-        <img className="about-me__photo" src={photo} alt="фото челика"></img>
+        <img className="about-me__photo" src={photo} alt="фото студента"></img>
       </div>
     </section>
   )

@@ -12,8 +12,8 @@ function Header() {
   return (
     <header className={`${location.pathname === '/' ? 'header' : 'header_background_black'}`}>
       <div className='section-width header__container'>
-        <a className='header__logo-link' href="#about_project">
-          <img className='header__logo' src={logo} alt='логотип зеленый круг' /> </a>
+        <Link className='header__logo-link' to="/">
+          <img className='header__logo' src={logo} alt='логотип зеленый круг' /></Link>
         {location.pathname === '/' ? <div className='header__buttons'>
           <Link to="/signup" className='header__button-register'>Регистрация</Link>
           <Link to="/signin" className='header__button-login'>Войти</Link>
