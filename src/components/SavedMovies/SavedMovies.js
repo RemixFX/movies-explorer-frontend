@@ -9,7 +9,8 @@ function SavedMovies() {
     <>
     <Header />
     <SearchForm />
-    <MoviesCardList component={MoviesCard} />
+    <MoviesCardList component={MoviesCard}
+    classCardButton="movies-card__delete-button" />
     <Footer />
     </>
   )

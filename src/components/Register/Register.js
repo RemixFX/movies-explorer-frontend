@@ -7,15 +7,15 @@ function Register() {
       registerText="Уже зарегистрированы?" nameLink="Войти" link="/signin">
       <span className="form__input-name">Имя</span>
       <input className="form__input" type="text" autoComplete="off"
-        name="name" />
+        required name="name" />
       <span className="form__input-error"></span>
       <span className="form__input-name">E-mail</span>
       <input className="form__input" type="email" autoComplete="off"
-        name="email" />
+        required name="email" />
       <span className="form__input-error">fatal error!!!</span>
       <span className="form__input-name">Пароль</span>
       <input className="form__input" type="password" autoComplete="off"
-        name="password" />
+        required name="password" />
       <span className="form__input-error">error is fatal!!!</span>
     </PageWithForm>
   )

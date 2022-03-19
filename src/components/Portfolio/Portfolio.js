@@ -7,7 +7,7 @@ function Portfolio() {
       <ul className="portfolio__links">
         <li className="portfolio__list">
           <p className="portfolio__text">Статичный сайт</p>
-          <a className="portfolio__link" href="https://github.com/RemixFX/how-to-learn"
+          <a className="portfolio__link" href="https://remixfx.github.io/how-to-learn/"
             target="_blank" rel="noreferrer"><img className="portfolio__link-arrow"
               src={linkArrow} alt="стрелка" /></a>
         </li>

@@ -9,7 +9,8 @@ function Movies() {
     <>
     <Header />
     <SearchForm />
-    <MoviesCardList component={MoviesCard} />
+    <MoviesCardList component={MoviesCard}
+     classCardButton="movies-card__like-button" />
     <Footer />
     </>
   )
