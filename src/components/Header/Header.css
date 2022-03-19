@@ -131,11 +131,41 @@
 
 .header__menu {
   width: 67.7%;
+  height: 100vh;
   display: flex;
   align-items: center;
   flex-direction: column;
   background-color: #202020;
+}
+
+.menu-animated-enter {
+  color: transparent;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.menu-animated-enter-active {
+  width: 67.7%;
   height: 100vh;
+  transition: all 700ms ease-out;
+  opacity: 1;
+
+}
+
+.menu-animated-exit {
+  width: 67.7%;
+  height: 100vh;
+  opacity: 1;
+  background-color: #464545;
+}
+
+.menu-animated-exit-active {
+  color: transparent;
+  transition: all 700ms ease-out;;
+  width: 0;
+  height: 0;
+  opacity: 0;
 }
 
 @media screen and (max-width: 890px) {
