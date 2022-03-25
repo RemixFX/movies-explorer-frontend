@@ -1,50 +1,27 @@
-import film from "../../images/film.jpg"
 
 function MoviesCard(props) {
+
+  const duration = props.movie.duration;
+  const durationMovie =
+    duration < 60 ? `${duration}м` : `${Math.trunc(duration / 60)}ч ${duration % 60}м`
+
+
   return (
-    <><article className="movies-card">
-      <img className="movies-card__image" src={film} alt="два человека идут по пустыне" />
-      <div className="movies-card__container">
-        <h3 className="movies-card__name">Одинокий рейнджер</h3>
-        <button className={props.classCardButton} type="button"></button>
-      </div>
-      <p className="movies-card__time-duration">1ч 37м</p>
-    </article><article className="movies-card">
-        <img className="movies-card__image" src={film} alt="два человека идут по пустыне" />
+    <>
+      <article className="movies-card">
+        <a href={props.movie.trailerLink} target="_blank" rel="noreferrer">
+          <img className="movies-card__image"
+            src={`https://api.nomoreparties.co${props.movie.image.url}`}
+            alt={props.movie.name} /> </a>
         <div className="movies-card__container">
-          <h3 className="movies-card__name">Одинокий рейнджер</h3>
-          <button className={props.classCardButton} type="button"></button>
+          <h3 className="movies-card__name">{props.movie.nameRU}</h3>
+          <button className={props.classCardButton} onClick={props.onFavoriteClick}
+           type="button"></button>
         </div>
-        <p className="movies-card__time-duration">1ч 37м</p>
-      </article><article className="movies-card">
-        <img className="movies-card__image" src={film} alt="два человека идут по пустыне" />
-        <div className="movies-card__container">
-          <h3 className="movies-card__name">Одинокий рейнджер</h3>
-          <button className={props.classCardButton} type="button"></button>
-        </div>
-        <p className="movies-card__time-duration">1ч 37м</p>
-      </article><article className="movies-card">
-        <img className="movies-card__image" src={film} alt="два человека идут по пустыне" />
-        <div className="movies-card__container">
-          <h3 className="movies-card__name">Одинокий рейнджер</h3>
-          <button className={props.classCardButton} type="button"></button>
-        </div>
-        <p className="movies-card__time-duration">1ч 37м</p>
-      </article><article className="movies-card">
-        <img className="movies-card__image" src={film} alt="два человека идут по пустыне" />
-        <div className="movies-card__container">
-          <h3 className="movies-card__name">Одинокий рейнджер</h3>
-          <button className={props.classCardButton} type="button"></button>
-        </div>
-        <p className="movies-card__time-duration">1ч 37м</p>
-      </article><article className="movies-card">
-        <img className="movies-card__image" src={film} alt="два человека идут по пустыне" />
-        <div className="movies-card__container">
-          <h3 className="movies-card__name">Одинокий рейнджер</h3>
-          <button className={props.classCardButton} type="button"></button>
-        </div>
-        <p className="movies-card__time-duration">1ч 37м</p>
-      </article></>
+        <p className="movies-card__time-duration">
+          {durationMovie}</p>
+      </article>
+    </>
   )
 }
 

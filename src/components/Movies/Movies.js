@@ -1,17 +1,24 @@
 import Header from "../Header/Header"
-import MoviesCard from "../MoviesCard/MoviesCard";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
-import Footer from "../Footer/Footer"
+import Preloader from "../Preloader/Preloader";
+import Footer from "../Footer/Footer";
+import React from "react";
 
-function Movies() {
-  return(
+function Movies(props) {
+
+  return (
     <>
-    <Header />
-    <SearchForm />
-    <MoviesCardList component={MoviesCard}
-     classCardButton="movies-card__like-button" />
-    <Footer />
+      <Header />
+      <SearchForm onFindMovies={props.onFindMovies} />
+      <MoviesCardList
+        movies={props.movies}
+        onButtonClick={props.onButtonClick}
+        onFavoriteClick={props.onFavoriteClick}
+        classCardButton="movies-card__like-button" />
+      < Preloader isLoading={props.isLoading}
+        isEmptyResult={props.isEmptyResult}/>
+      <Footer />
     </>
   )
 }

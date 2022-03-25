@@ -16,8 +16,9 @@
 
 .movies-card__image {
   display: block;
-  width: 100%;
-  object-fit: contain;
+  width: 364px;
+  height: 203px;
+  object-fit: cover;
   object-position: center;
 }
 
@@ -90,6 +91,11 @@
 }
 
 @media screen and (max-width: 820px) {
+  .movies-card__image {
+    width: 339px;
+    height: 190px;
+  }
+
   .movies-card__name {
     padding-right: 21px;
   }
@@ -107,7 +113,19 @@
   }
 }
 
+@media screen and (max-width: 767px) {
+  .movies-card__image {
+    width: 290px;
+    height: 178px;
+  }
+}
+
 @media screen and (max-width: 420px) {
+  .movies-card__image {
+    width: 300px;
+    height: 168px;
+  }
+
   .movies-card__name {
     font-size: 12px;
     line-height: 14.52px;
