@@ -19,8 +19,12 @@ function SearchForm(props) {
 	}
 
   React.useEffect(() => {
-    setTextInput(JSON.parse(localStorage.getItem('text')))
-    setChecked(JSON.parse(localStorage.getItem('checkbox')))
+    if (localStorage.text) {
+      setTextInput(JSON.parse(localStorage.getItem('text')))
+    }
+    if (localStorage.checkbox){
+      setChecked(JSON.parse(localStorage.getItem('checkbox')))
+    }
   }, [])
 
   return (

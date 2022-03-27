@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import moviesApi from "../../utils/MoviesApi";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Login from "../Login/Login";
 import Main from "../Main/Main"
 import Movies from "../Movies/Movies"
@@ -8,7 +9,7 @@ import NotFound from "../NotFound/NotFound";
 import Profile from "../Profile/Profile";
 import Register from "../Register/Register";
 import SavedMovies from "../SavedMovies/SavedMovies";
-//import { localStorageMovies } from "../../utils/utils"
+import mainApi from "../../utils/MainApi";
 
 function App() {
 
@@ -16,19 +17,23 @@ function App() {
   const [isSortMovies, setIsSortMovies] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isEmptyResult, setIsEmptyResult] = React.useState(false);
-  const [isAddButtonClassName, setIsAddButtonClassName] = React.useState(true)
-  const localStorageMovies = JSON.parse(localStorage.getItem('movies'));
+  const [isAddButtonClassName, setIsAddButtonClassName] = React.useState(true);
+  const [loggedIn, setLoggedIn] = React.useState(true);
+  const [infoMessage, setInfoMessage] = React.useState('');
+  const localStorageMovies =
+    localStorage.getItem('movies') !== null ? JSON.parse(localStorage.getItem('movies')) : []
+  const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = React.useState({ _id: '', name: '', email: '' })
 
   // Правила отображения кнопки Ещё
   const changeClassButton = () => {
     movies.length === localStorageMovies.length
-    || movies.length === isSortMovies.length ? setIsAddButtonClassName(false)
-    : setIsAddButtonClassName(true)
+      || movies.length === isSortMovies.length ? setIsAddButtonClassName(false)
+      : setIsAddButtonClassName(true)
   }
 
   // Проверка разрешения экрана для рендера списка фильмов
   const checkResize = (result) => {
-
     if (window.innerWidth >= 1280) {
       setMovies(result.slice(0, 12));
     } else if (window.innerWidth <= 1279 && window.innerWidth > 480) {
@@ -58,6 +63,7 @@ function App() {
 
   //Сортировка результатов поиска по короткометражкам
   const sortMovies = (checked) => {
+    console.log(localStorageMovies)
     if (!checked) {
       const sortedMovies = localStorageMovies.filter((movie) => movie.duration <= 40)
       setIsSortMovies(sortedMovies)
@@ -91,7 +97,7 @@ function App() {
     setIsLoading(true);
     moviesApi.getMovies()
       .then((result) => {
-       return result.filter(filterMovies)
+        return result.filter(filterMovies)
       })
       .then((result) => {
         if (checked) {
@@ -99,7 +105,7 @@ function App() {
         } else {
           return result
         }
-       })
+      })
       .then((result) => {
         localStorage.setItem('movies', JSON.stringify(result))
         localStorage.setItem('checkbox', JSON.stringify(checked))
@@ -130,7 +136,7 @@ function App() {
   }
 
   // Обработчик изменения разрешения в зависимости: короткометражка или нет
-  function resizeHandler() {
+  const resizeHandler = () => {
     if (isSortMovies.length > 0) {
       checkResize(isSortMovies);
     } else {
@@ -161,6 +167,54 @@ function App() {
     }
   }
 
+  // Регистрация
+  const handleRegister = (name, email, password) => {
+    mainApi.register(name, email, password)
+      .then(() => {
+        handleLogin(email, password)
+      })
+      .catch((err) => {
+        setInfoMessage(err.message)
+      })
+  }
+
+  // Авторизация
+  const handleLogin = (email, password) => {
+    mainApi.authorize(email, password)
+      .then((res) => {
+        if (res.message === 'Успешный вход') {
+          setLoggedIn(true)
+          navigate('/movies')
+        }
+      })
+      .catch((err) => {
+        setInfoMessage(err.message)
+      })
+  }
+
+    // Вызов проверки авторизации пользователя при входе на сайт
+    React.useEffect(() => {
+      mainApi.getUserData().then(res => {
+        if (res) {
+          setLoggedIn(true)
+          navigate('/movies')
+        }
+      })
+      .catch((err) => console.log(`Ошибка: ${err.message}`));
+    }, []);
+
+    // Сохранение данных профиля при авторизации
+    React.useEffect(() => {
+      if (loggedIn) {
+        mainApi.getUserData().then(res => {
+          setCurrentUser(res)
+        })
+          .catch((err) => {
+            console.log(`Ошибка: ${err.message}`)
+          })
+      }
+    }, [loggedIn]);
+
   const favorite = () => console.log('inputs')
 
   return (
@@ -177,12 +231,14 @@ function App() {
           isEmptyResult={isEmptyResult}
           onSort={sortMovies}
           cardAddButtonClassName={isAddButtonClassName === false ? 'movies-list__button_disabled'
-          : ''} />} />
+            : ''} />} />
 
         <Route path="/saved-movies" element={<SavedMovies />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/signup" element={<Register />} />
-        <Route path="/signin" element={<Login />} />
+        <Route path="/signup" element={<Register onRegister={handleRegister}
+          infoMessage={infoMessage} />} />
+        <Route path="/signin" element={<Login onLogin={handleLogin}
+          infoMessage={infoMessage} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
