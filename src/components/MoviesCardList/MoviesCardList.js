@@ -4,11 +4,7 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 function MoviesCardList(props) {
 
   const location = useLocation();
-  const cardAddButtonClassName = (
-    props.movies.length === JSON.parse(localStorage.getItem('movies')).length
-      ? 'movies-list__button_disabled'
-      : 'movies-list__button'
-  );
+
   return (
     <section className="section-width movies-list">
       <div className="movies-list__grid">
@@ -20,8 +16,8 @@ function MoviesCardList(props) {
       </div>
       <div className="movies-list__block-button">
         {location.pathname === '/movies' &&
-          <button className={cardAddButtonClassName} type="button"
-            onClick={props.onButtonClick}>Ещё</button>}
+          <button className={`movies-list__button ${props.cardAddButtonClassName}`}
+           type="button" onClick={props.onButtonClick}>Ещё</button>}
       </div>
     </section>
   )

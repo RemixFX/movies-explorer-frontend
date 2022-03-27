@@ -10,12 +10,14 @@ function Movies(props) {
   return (
     <>
       <Header />
-      <SearchForm onFindMovies={props.onFindMovies} />
+      <SearchForm onFindMovies={props.onFindMovies}
+      onSort={props.onSort} />
       <MoviesCardList
         movies={props.movies}
         onButtonClick={props.onButtonClick}
         onFavoriteClick={props.onFavoriteClick}
-        classCardButton="movies-card__like-button" />
+        classCardButton="movies-card__like-button"
+        cardAddButtonClassName={props.cardAddButtonClassName} />
       < Preloader isLoading={props.isLoading}
         isEmptyResult={props.isEmptyResult}/>
       <Footer />
