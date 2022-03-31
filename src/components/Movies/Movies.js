@@ -7,17 +7,50 @@ import React from "react";
 
 function Movies(props) {
 
+  const [textInput, setTextInput] = React.useState('');
+  const [checked, setChecked] = React.useState(false);
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    props.onFindMovies(textInput.toLowerCase(), checked)
+  }
+
+  function changeSearch(text) {
+    setTextInput(text)
+  }
+
+  function changeCheckbox(value) {
+    setChecked(value)
+    props.onSort(checked)
+  }
+
+  React.useEffect(() => {
+    if (localStorage.text) {
+      setTextInput(JSON.parse(localStorage.getItem('text')))
+    }
+    if (localStorage.checkbox){
+      setChecked(JSON.parse(localStorage.getItem('checkbox')))
+    }
+  }, [])
+
   return (
     <>
       <Header />
-      <SearchForm onFindMovies={props.onFindMovies}
-      onSort={props.onSort} />
+      <SearchForm
+      handleSubmit={handleSubmit}
+      checked={checked}
+      textInput={textInput}
+      changeSearch={changeSearch}
+      changeCheckbox={changeCheckbox}
+      onSort={props.onSort}
+       />
       <MoviesCardList
         movies={props.movies}
         onButtonClick={props.onButtonClick}
-        onFavoriteClick={props.onFavoriteClick}
-        classCardButton="movies-card__like-button"
-        cardAddButtonClassName={props.cardAddButtonClassName} />
+        onMovieButtonClick={props.onMovieButtonClick}
+        isSavedMovies={props.isSavedMovies}
+        classMovieButton={'movies-card__like-button'}
+        addButtonClassName={props.addButtonClassName} />
       < Preloader isLoading={props.isLoading}
         isEmptyResult={props.isEmptyResult}/>
       <Footer />

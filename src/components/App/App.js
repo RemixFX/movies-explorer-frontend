@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext"
 import moviesApi from "../../utils/MoviesApi";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Login from "../Login/Login";
@@ -20,6 +21,8 @@ function App() {
   const [isAddButtonClassName, setIsAddButtonClassName] = React.useState(true);
   const [loggedIn, setLoggedIn] = React.useState(true);
   const [infoMessage, setInfoMessage] = React.useState('');
+  const [isSavedMovies, setIsSavedMovies] = React.useState([])
+  const [isStagedSavedMovies, setIsStagedSavedMovies] = React.useState([])
   const localStorageMovies =
     localStorage.getItem('movies') !== null ? JSON.parse(localStorage.getItem('movies')) : []
   const navigate = useNavigate();
@@ -33,19 +36,20 @@ function App() {
   }
 
   // Проверка разрешения экрана для рендера списка фильмов
-  const checkResize = (result) => {
+  const checkResize = (result, setter) => {
     if (window.innerWidth >= 1280) {
-      setMovies(result.slice(0, 12));
+      setter(result.slice(0, 12));
     } else if (window.innerWidth <= 1279 && window.innerWidth > 480) {
-      setMovies(result.slice(0, 8))
+      setter(result.slice(0, 8))
     } else if (window.innerWidth >= 320 && window.innerWidth <= 480) {
-      setMovies(result.slice(0, 3))
+      setter(result.slice(0, 3))
     }
   }
 
   React.useEffect(() => {
-    localStorage.movies ? checkResize(localStorageMovies)
-      : checkResize(movies)
+    localStorage.movies ? checkResize(localStorageMovies, setMovies)
+      : checkResize(movies, setMovies)
+    getUserMovies()
   }, [])
 
   React.useEffect(() => {
@@ -63,41 +67,54 @@ function App() {
 
   //Сортировка результатов поиска по короткометражкам
   const sortMovies = (checked) => {
-    console.log(localStorageMovies)
     if (!checked) {
       const sortedMovies = localStorageMovies.filter((movie) => movie.duration <= 40)
       setIsSortMovies(sortedMovies)
-      checkResize(sortedMovies)
+      checkResize(sortedMovies, setMovies)
       return
     } if (checked) {
       setIsSortMovies([])
-      checkResize(localStorageMovies)
+      checkResize(localStorageMovies, setMovies)
       return
     }
   }
 
-  // Поиск фильмов
-  const findMovies = (textInput, checked) => {
-    function filterMovies(movie) {
-      if (movie.nameRU.toLowerCase().includes(textInput)) {
-        return true
-      } else if (String(movie.nameEN).toLowerCase().includes(textInput)) {
-        return true
-      } else if (movie.description.toLowerCase().includes(textInput)) {
-        return true
-      } else if (String(movie.country).toLowerCase().includes(textInput)) {
-        return true
-      } else if (String(movie.director).toLowerCase().includes(textInput)) {
-        return true
-      }
-      return
+  // Запрос на уже сохранённые фильмы
+  const getUserMovies = () => {
+    mainApi.getSavedMovies()
+      .then((res) => {
+        setIsSavedMovies(res)
+        setIsStagedSavedMovies(res)
+      })
+      .catch((err) => {
+        console.log(err.message)
+      })
+  }
+
+  // Фильтр по поиску
+  function filterMovies(movie, textInput) {
+    if (movie.nameRU.toLowerCase().includes(textInput)) {
+      return true
+    } else if (String(movie.nameEN).toLowerCase().includes(textInput)) {
+      return true
+    } else if (movie.description.toLowerCase().includes(textInput)) {
+      return true
+    } else if (String(movie.country).toLowerCase().includes(textInput)) {
+      return true
+    } else if (String(movie.director).toLowerCase().includes(textInput)) {
+      return true
     }
+    return
+  }
+
+  // Поиск фильмов на странцие "Фильмы"
+  const findMovies = (textInput, checked) => {
 
     setIsSortMovies([])
     setIsLoading(true);
     moviesApi.getMovies()
       .then((result) => {
-        return result.filter(filterMovies)
+        return result.filter((movie) => filterMovies(movie, textInput))
       })
       .then((result) => {
         if (checked) {
@@ -118,14 +135,20 @@ function App() {
         return result
       })
       .then((result) => {
-
-        checkResize(result)
+        checkResize(result, setMovies)
       })
 
       .catch((err) => {
         console.log(err.message)
         setIsLoading(false)
       })
+  }
+
+  // Поиск фильмов на странцие "Сохраненные фильмы"
+  const findSavedMovies = (textInput) => {
+    textInput.length === 0 && getUserMovies()
+    setIsSavedMovies(isStagedSavedMovies.filter((movie) => filterMovies(movie, textInput)))
+
   }
 
   // Слушатель изменения разрешения экрана с ограничением на вызов
@@ -138,9 +161,9 @@ function App() {
   // Обработчик изменения разрешения в зависимости: короткометражка или нет
   const resizeHandler = () => {
     if (isSortMovies.length > 0) {
-      checkResize(isSortMovies);
+      checkResize(isSortMovies, setMovies);
     } else {
-      checkResize(localStorageMovies)
+      checkResize(localStorageMovies, setMovies)
     }
   }
 
@@ -192,55 +215,122 @@ function App() {
       })
   }
 
-    // Вызов проверки авторизации пользователя при входе на сайт
-    React.useEffect(() => {
-      mainApi.getUserData().then(res => {
-        if (res) {
-          setLoggedIn(true)
-          navigate('/movies')
-        }
-      })
-      .catch((err) => console.log(`Ошибка: ${err.message}`));
-    }, []);
+  //Изменение данных профиля
+  const handleUpdateProfile = (name, email) => {
+    mainApi.patchUserData(name, email)
+    .then((res) => setCurrentUser(res))
+    .catch((err) => console.log(`Ошибка: ${err.message}`));
+  }
 
-    // Сохранение данных профиля при авторизации
-    React.useEffect(() => {
-      if (loggedIn) {
-        mainApi.getUserData().then(res => {
-          setCurrentUser(res)
-        })
-          .catch((err) => {
-            console.log(`Ошибка: ${err.message}`)
-          })
+  //Выход из профиля
+  const handleLogout = () => {
+    mainApi.logout()
+    .then((res) => {
+      console.log(res)
+      setLoggedIn(false)
+      navigate('signin')
+    })
+  }
+
+  // Вызов проверки авторизации пользователя при входе на сайт
+  React.useEffect(() => {
+    mainApi.getUserData().then(res => {
+      if (res) {
+        setLoggedIn(true)
+        navigate('/movies')
       }
-    }, [loggedIn]);
+    })
+      .catch((err) => console.log(`Ошибка: ${err.message}`));
+  }, []);
 
-  const favorite = () => console.log('inputs')
+  // Сохранение данных профиля при авторизации
+  React.useEffect(() => {
+    if (loggedIn) {
+      mainApi.getUserData().then(res => {
+        setCurrentUser(res)
+      })
+        .catch((err) => {
+          console.log(`Ошибка: ${err.message}`)
+        })
+    }
+  }, [loggedIn]);
+
+  // Функция назначения действия кнопки  в зависимости от состояния
+  const handleMovieButtonClick = (movie, isLiked) => {
+    isLiked ? removeFromFavorite(movie)
+      : addToFavorite(movie)
+  }
+
+  // Функция кнопки, для сохранения фильма
+  const addToFavorite = (movie) => {
+    mainApi.saveMovies(movie)
+      .then((res) => {
+        setIsSavedMovies([...isSavedMovies, res])
+        setIsStagedSavedMovies([...isStagedSavedMovies, res])
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err.message}`)
+      })
+  }
+
+  // Функция кнопки, для удаления фильма на странице "Фильмы"
+  const removeFromFavorite = (movie) => {
+    const forDelete = isSavedMovies.find((c) => c.movieId === movie.id)
+    mainApi.deleteSavedMovie(forDelete._id)
+      .then(() => {
+        setIsSavedMovies((state) => state.filter((c) => c.movieId !== movie.id))
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err.message}`)
+      })
+  }
+
+  // Функция кнопки, для удаления фильма на странице "Сохраненные фильмы"
+  const deleteMovie = (movie) => {
+    mainApi.deleteSavedMovie(movie._id)
+      .then(() => {
+        setIsSavedMovies((state) => state.filter((c) => c !== movie))
+        setIsStagedSavedMovies((state) => state.filter((c) => c !== movie))
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err.message}`)
+      })
+  }
 
   return (
     <div className="App">
-      <Routes>
-        <Route path="/" element={<Main />} />
+      <CurrentUserContext.Provider value={currentUser}>
+        <Routes>
+          <Route path="/" element={<Main />} />
 
-        <Route path="/movies" element={<Movies
-          onFindMovies={findMovies}
-          movies={movies}
-          onButtonClick={addMoviesToList}
-          onFavoriteClick={favorite}
-          isLoading={isLoading}
-          isEmptyResult={isEmptyResult}
-          onSort={sortMovies}
-          cardAddButtonClassName={isAddButtonClassName === false ? 'movies-list__button_disabled'
-            : ''} />} />
-
-        <Route path="/saved-movies" element={<SavedMovies />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/signup" element={<Register onRegister={handleRegister}
-          infoMessage={infoMessage} />} />
-        <Route path="/signin" element={<Login onLogin={handleLogin}
-          infoMessage={infoMessage} />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          <Route path="/movies" element={<Movies
+            onFindMovies={findMovies}
+            movies={movies}
+            onButtonClick={addMoviesToList}
+            onMovieButtonClick={handleMovieButtonClick}
+            isLoading={isLoading}
+            isEmptyResult={isEmptyResult}
+            onSort={sortMovies}
+            isSavedMovies={isSavedMovies}
+            addButtonClassName={isAddButtonClassName === false
+              ? 'movies-list__button_disabled' : ''} />}
+          />
+          <Route path="/saved-movies" element={<SavedMovies
+            movies={isSavedMovies}
+            onMovieButtonClick={deleteMovie}
+            onFindMovies={findSavedMovies} />}
+          />
+          <Route path="/profile" element={<Profile
+          onUpdateUser={handleUpdateProfile}
+          onLogout={handleLogout} />}
+          />
+          <Route path="/signup" element={<Register onRegister={handleRegister}
+            infoMessage={infoMessage} />} />
+          <Route path="/signin" element={<Login onLogin={handleLogin}
+            infoMessage={infoMessage} />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </CurrentUserContext.Provider>
     </div>
   )
 }
