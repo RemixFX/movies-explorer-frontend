@@ -22,6 +22,7 @@ function Movies(props) {
 
   function changeCheckbox(value) {
     setChecked(value)
+    localStorage.setItem(CHECKBOX, JSON.stringify(!checked))
     props.onSort(checked)
   }
 
@@ -44,6 +45,7 @@ function Movies(props) {
       changeSearch={changeSearch}
       changeCheckbox={changeCheckbox}
       onSort={props.onSort}
+      searhErrorMessage={props.searhErrorMessage}
        />
       <MoviesCardList
         movies={props.movies}

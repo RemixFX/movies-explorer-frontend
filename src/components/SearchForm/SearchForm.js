@@ -18,6 +18,7 @@ function SearchForm(props) {
             onChange={handleChangeSearch} />
           <button className="search-form__submit-button"></button>
         </div>
+        <span className="search-form__error-message">{props.searhErrorMessage}</span>
         <label className="search-form__switch">
           <input type="checkbox" className="search-form__checkbox"
             checked={props.checked} onChange={handleChangeCheckbox} />

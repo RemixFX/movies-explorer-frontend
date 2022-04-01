@@ -45,13 +45,21 @@
   color: #8B8B8B;
 }
 
+.search-form__error-message {
+  padding-top: 5px;
+  font-size: 14px;
+  min-height: 14px;
+  line-height: 14px;
+  color: #EE3465;
+}
+
 /* Переключатель - коробка вокруг ползунка */
 .search-form__switch {
   position: relative;
   display: flex;
   width: 36px;
   height: 20px;
-  margin-top: 32px;
+  margin-top: 13px;
 }
 
 /* Скрыть флажок HTML по умолчанию */
@@ -149,8 +157,12 @@
     margin-bottom: 6px;
   }
 
+  .search-form__error-message {
+    font-size: 12px;
+  }
+
   .search-form__switch{
-    margin-top: 40px;
+    margin-top: 23px;
     align-self: center;
     margin-left: 34%;
   }
