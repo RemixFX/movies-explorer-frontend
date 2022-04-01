@@ -1,1 +1,3 @@
-export const localStorageMovies = JSON.parse(localStorage.getItem('movies'));
+export const MOVIES = 'movies';
+export const CHECKBOX = 'checkbox';
+export const TEXT = 'text';

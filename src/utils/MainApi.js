@@ -11,28 +11,28 @@ class MainApi {
     return res.json().then((message) => Promise.reject(message))
   }
 
-  register(name, email, password) {
+  register(data) {
     return fetch(`${this._url}/signup`, {
       method: 'POST',
       credentials: 'include',
       headers: this._headers,
       body: JSON.stringify({
-        name,
-        email,
-        password
+        name: data.name,
+        email: data.email,
+        password: data.password
       })
     })
       .then(this._checkResponse);
   }
 
-  authorize(email, password ) {
+  authorize(data) {
     return fetch(`${this._url}/signin`, {
       method: 'POST',
       credentials: 'include',
       headers: this._headers,
       body: JSON.stringify({
-        email,
-        password
+        email: data.email,
+        password: data.password
       })
     })
       .then(this._checkResponse);
@@ -47,14 +47,14 @@ class MainApi {
       .then(this._checkResponse);
   }
 
-  patchUserData(name, email) {
+  patchUserData(data) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
       credentials: 'include',
       headers: this._headers,
       body: JSON.stringify({
-        name,
-        email
+        name: data.name,
+        email: data.email
       })
     })
     .then(this._checkResponse);

@@ -1,43 +1,38 @@
 import PageWithForm from "../PageWithForm/PageWithForm";
 import React from "react";
+import { useFormWithValidation } from '../../utils/FormValidator';
+import validator from 'validator';
 
 function Register(props) {
 
-  const [name, setName] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const { values, handleChange, errors, isValid }
+    = useFormWithValidation({name: '', email: '', password: ''});
 
-  function handleChangeName(evt) {
-    setName(evt.target.value)
-  }
-  function handleChangeEmail(evt) {
-    setEmail(evt.target.value)
-  }
-  function handleChangePassword(evt) {
-    setPassword(evt.target.value)
-  }
+  const reallyValid = validator.isEmail(values.email) && isValid
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    props.onRegister(name, email, password)
+    props.onRegister(values)
   }
 
   return (
     <PageWithForm header='Добро пожаловать!' buttonName="Зарегистрироваться"
       registerText="Уже зарегистрированы?" nameLink="Войти" link="/signin"
-      onSubmitForm={handleSubmit} infoMessage={props.infoMessage}>
+      onSubmitForm={handleSubmit} infoMessage={props.infoMessage} reallyValid={reallyValid}>
       <span className="form__input-name">Имя</span>
-      <input className="form__input" type="text" autoComplete="off"
-        required name="name" value={name} onChange={handleChangeName}/>
-      <span className="form__input-error"></span>
+      <input className='form__input' type="text" autoComplete="off"
+        required name="name" minLength="2" maxLength="30"
+        value={values.name} onChange={handleChange} />
+      <span className="form__input-error">{errors.name}</span>
       <span className="form__input-name">E-mail</span>
       <input className="form__input" type="email" autoComplete="off"
-        required name="email" value={email} onChange={handleChangeEmail}/>
-      <span className="form__input-error">fatal error!!!</span>
+        required name="email" value={values.email} onChange={handleChange} />
+      <span className="form__input-error">{errors.email}</span>
       <span className="form__input-name">Пароль</span>
       <input className="form__input" type="password" autoComplete="off"
-        required name="password" value={password} onChange={handleChangePassword}/>
-      <span className="form__input-error">error is fatal!!!</span>
+        required name="password" minLength="8"
+        value={values.password} onChange={handleChange} />
+      <span className="form__input-error">{errors.password}</span>
     </PageWithForm>
   )
 }

@@ -59,6 +59,11 @@
   opacity: 0.7;
 }
 
+.form__submit-button_disabled {
+  background-color: #5b5b5b;
+  opacity: 0.7;
+}
+
 .form__container {
   display: flex;
   align-items: center;

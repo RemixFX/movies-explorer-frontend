@@ -11,6 +11,7 @@ import Profile from "../Profile/Profile";
 import Register from "../Register/Register";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import mainApi from "../../utils/MainApi";
+import { MOVIES, CHECKBOX, TEXT } from "../../utils/utils"
 
 function App() {
 
@@ -24,7 +25,7 @@ function App() {
   const [isSavedMovies, setIsSavedMovies] = React.useState([])
   const [isStagedSavedMovies, setIsStagedSavedMovies] = React.useState([])
   const localStorageMovies =
-    localStorage.getItem('movies') !== null ? JSON.parse(localStorage.getItem('movies')) : []
+    localStorage.getItem(MOVIES) !== null ? JSON.parse(localStorage.getItem(MOVIES)) : []
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = React.useState({ _id: '', name: '', email: '' })
 
@@ -124,9 +125,9 @@ function App() {
         }
       })
       .then((result) => {
-        localStorage.setItem('movies', JSON.stringify(result))
-        localStorage.setItem('checkbox', JSON.stringify(checked))
-        localStorage.setItem('text', JSON.stringify(textInput))
+        localStorage.setItem(MOVIES, JSON.stringify(result))
+        localStorage.setItem(CHECKBOX, JSON.stringify(checked))
+        localStorage.setItem(TEXT, JSON.stringify(textInput))
         if (result.length === 0) {
           showPreloaderMessage()
         } else {
@@ -191,19 +192,20 @@ function App() {
   }
 
   // Регистрация
-  const handleRegister = (name, email, password) => {
-    mainApi.register(name, email, password)
+  const handleRegister = (userData) => {
+    mainApi.register(userData)
       .then(() => {
-        handleLogin(email, password)
+        handleLogin(userData)
       })
       .catch((err) => {
         setInfoMessage(err.message)
+        setTimeout(() => setInfoMessage(''), 7000)
       })
   }
 
   // Авторизация
-  const handleLogin = (email, password) => {
-    mainApi.authorize(email, password)
+  const handleLogin = (userData) => {
+    mainApi.authorize(userData)
       .then((res) => {
         if (res.message === 'Успешный вход') {
           setLoggedIn(true)
@@ -212,14 +214,22 @@ function App() {
       })
       .catch((err) => {
         setInfoMessage(err.message)
+        setTimeout(() => setInfoMessage(''), 7000)
       })
   }
 
   //Изменение данных профиля
-  const handleUpdateProfile = (name, email) => {
-    mainApi.patchUserData(name, email)
-    .then((res) => setCurrentUser(res))
-    .catch((err) => console.log(`Ошибка: ${err.message}`));
+  const handleUpdateProfile = (userData) => {
+    mainApi.patchUserData(userData)
+    .then((res) => {
+      setCurrentUser(res)
+      setInfoMessage('Данные успешно изменены')
+      setTimeout(() => setInfoMessage(''), 7000)
+    })
+    .catch((err) => {
+      setInfoMessage(err.message)
+      setTimeout(() => setInfoMessage(''), 7000)
+    })
   }
 
   //Выход из профиля
@@ -228,7 +238,7 @@ function App() {
     .then((res) => {
       console.log(res)
       setLoggedIn(false)
-      navigate('signin')
+      navigate('/')
     })
   }
 
@@ -322,7 +332,8 @@ function App() {
           />
           <Route path="/profile" element={<Profile
           onUpdateUser={handleUpdateProfile}
-          onLogout={handleLogout} />}
+          onLogout={handleLogout}
+          profileInfoMessage={infoMessage}/>}
           />
           <Route path="/signup" element={<Register onRegister={handleRegister}
             infoMessage={infoMessage} />} />

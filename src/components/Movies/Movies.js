@@ -4,6 +4,7 @@ import SearchForm from "../SearchForm/SearchForm";
 import Preloader from "../Preloader/Preloader";
 import Footer from "../Footer/Footer";
 import React from "react";
+import { TEXT, CHECKBOX } from "../../utils/utils"
 
 function Movies(props) {
 
@@ -26,10 +27,10 @@ function Movies(props) {
 
   React.useEffect(() => {
     if (localStorage.text) {
-      setTextInput(JSON.parse(localStorage.getItem('text')))
+      setTextInput(JSON.parse(localStorage.getItem(TEXT)))
     }
     if (localStorage.checkbox){
-      setChecked(JSON.parse(localStorage.getItem('checkbox')))
+      setChecked(JSON.parse(localStorage.getItem(CHECKBOX)))
     }
   }, [])
 
