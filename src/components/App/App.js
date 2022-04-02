@@ -268,9 +268,12 @@ function App() {
     mainApi.getUserData()
       .then(res => {
         setLoggedIn(true)
-        setIsLoading(false)
       })
-      .catch((err) => console.log(`Ошибка: ${err.message}`));
+      .catch((err) => {
+        setLoggedIn(false)
+        console.log(`Ошибка: ${err.message}`)
+      })
+      .finally(() => setIsLoading(false))
   }, []);
 
   // Сохранение данных профиля при авторизации
