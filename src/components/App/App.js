@@ -13,6 +13,7 @@ import SavedMovies from "../SavedMovies/SavedMovies";
 import mainApi from "../../utils/MainApi";
 import { MOVIES, CHECKBOX, TEXT, SORTED_MOVIES } from "../../utils/utils"
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import Preloader from "../Preloader/Preloader";
 
 function App() {
 
@@ -21,7 +22,7 @@ function App() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isEmptyResult, setIsEmptyResult] = React.useState(false);
   const [isAddButtonClassName, setIsAddButtonClassName] = React.useState(true);
-  const [loggedIn, setLoggedIn] = React.useState(undefined);
+  const [loggedIn, setLoggedIn] = React.useState(null);
   const [infoMessage, setInfoMessage] = React.useState('');
   const [isSavedMovies, setIsSavedMovies] = React.useState([])
   const [isStagedSavedMovies, setIsStagedSavedMovies] = React.useState([])
@@ -263,10 +264,11 @@ function App() {
 
   // Вызов проверки авторизации пользователя при входе на сайт
   React.useEffect(() => {
+    setIsLoading(true)
     mainApi.getUserData()
       .then(res => {
         setLoggedIn(true)
-        //        navigate('/movies')
+        setIsLoading(false)
       })
       .catch((err) => console.log(`Ошибка: ${err.message}`));
   }, []);
@@ -323,6 +325,10 @@ function App() {
       .catch((err) => {
         console.log(`Ошибка: ${err.message}`)
       })
+  }
+
+  if (loggedIn === null) {
+    return <Preloader isLoading={isLoading} />
   }
 
   return (
