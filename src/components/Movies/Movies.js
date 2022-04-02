@@ -37,7 +37,7 @@ function Movies(props) {
 
   return (
     <>
-      <Header />
+      <Header loggedIn={props.loggedIn}/>
       <SearchForm
       handleSubmit={handleSubmit}
       checked={checked}

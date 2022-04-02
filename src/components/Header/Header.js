@@ -14,14 +14,15 @@ function Header(props) {
       <div className='section-width header__container'>
         <Link className='header__logo-link' to="/">
           <img className='header__logo' src={logo} alt='' /></Link>
-        {location.pathname === '/' ?
-          (!props.loggedIn ? <div className='header__buttons'>
+        {!props.loggedIn ?
+          <div className='header__buttons'>
             <Link to="/signup" className='header__button-register'>Регистрация</Link>
             <Link to="/signin" className='header__button-login'>Войти</Link>
-          </div> : <Navigation />)
+          </div>
           :
-          (<><button className='header__menu-button' type='button'
-            onClick={() => setClassPopup('popup_opened')}></button>
+          <>
+            <button className='header__menu-button' type='button'
+              onClick={() => setClassPopup('popup_opened')}></button>
             <div className={`popup ${classPopup}`}>
               <CSSTransition in={classPopup === 'popup_opened'} classNames="menu-animated"
                 timeout={700}>
@@ -34,7 +35,8 @@ function Header(props) {
             </div>
             <div className='header__buttons header__buttons_type_authorized'>
               <Navigation />
-            </div></>)}
+            </div>
+          </>}
       </div>
     </header>
   )
