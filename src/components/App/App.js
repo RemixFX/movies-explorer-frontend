@@ -45,14 +45,15 @@ function App() {
     } else if (window.innerWidth <= 1279 && window.innerWidth > 480) {
       setMovies(result.slice(0, 8))
     } else if (window.innerWidth >= 320 && window.innerWidth <= 480) {
-      setMovies(result.slice(0, 3))
+      setMovies(result.slice(0, 5))
     }
   }
 
   React.useEffect(() => {
     getUserMovies()
     if (localStorage.getItem(SORTED_MOVIES) !== null) {
-      checkResize(JSON.parse(localStorage.getItem(SORTED_MOVIES)))
+      setIsSortMovies(JSON.parse(localStorage.getItem(SORTED_MOVIES)))
+      checkResize(isSortMovies)
       return
     }
     if (localStorage.getItem(MOVIES) !== null) {
@@ -77,13 +78,11 @@ function App() {
 
   //Сортировка результатов поиска по короткометражкам
   const sortMovies = (checked) => {
-    console.log(checked)
     if (!checked) {
       const sortedMovies = localStorageMovies.filter((movie) => movie.duration <= 40)
       setIsSortMovies(sortedMovies)
       localStorage.setItem(SORTED_MOVIES, JSON.stringify(sortedMovies))
       checkResize(sortedMovies)
-      console.log(sortedMovies)
       return
     } if (checked) {
       localStorage.removeItem(SORTED_MOVIES)
