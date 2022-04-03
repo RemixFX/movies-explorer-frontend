@@ -3,6 +3,7 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
 import Footer from "../Footer/Footer"
 import React from "react";
+import Preloader from "../Preloader/Preloader";
 
 function SavedMovies(props) {
 
@@ -24,7 +25,7 @@ function SavedMovies(props) {
 
   return (
     <>
-      <Header loggedIn={props.loggedIn}/>
+      <Header loggedIn={props.loggedIn} />
       <SearchForm
         handleSubmit={handleSubmit}
         checked={checked}
@@ -37,6 +38,8 @@ function SavedMovies(props) {
           : props.movies}
         onMovieButtonClick={props.onMovieButtonClick}
         classMovieButton="movies-card__delete-button" />
+      < Preloader isLoading={props.isLoading}
+        isEmptyResult={props.isEmptyResult} />
       <Footer />
     </>
   )

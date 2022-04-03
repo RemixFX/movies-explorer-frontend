@@ -2,8 +2,6 @@ import React from 'react';
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import Header from "../Header/Header"
 import { useFormWithValidation } from '../../utils/FormValidator';
-import validator from 'validator';
-
 
 function Profile(props) {
 
@@ -11,8 +9,9 @@ function Profile(props) {
   const { values, handleChange, errors, isValid }
     = useFormWithValidation({ name: '', email: '' });
 
-  const reallyValid = validator.isEmail(values.email) && isValid
-  && (values.name !== currentUser.name || values.email !== currentUser.email);
+  const isNotSame = isValid && errors.email === ''
+    && (values.name !== currentUser.name
+    || values.email !== currentUser.email);
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -20,7 +19,7 @@ function Profile(props) {
   }
 
   return (
-    <><Header loggedIn={props.loggedIn}/>
+    <><Header loggedIn={props.loggedIn} />
       <section className="profile">
         <h2 className="profile__header">Привет, {currentUser.name}!</h2>
         <form className="profile-form" onSubmit={handleSubmit}>
@@ -34,13 +33,13 @@ function Profile(props) {
           <div className="profile-form__input-container">
             <input className="profile-form__input" type="email" autoComplete="off"
               name="email" required placeholder="E-mail" value={values.email}
-              minLength="8" onChange={handleChange} />
+              onChange={handleChange} />
             <span className="profile-form__input-text">{currentUser.email}</span>
           </div>
           <span className="profile-form__error">{errors.email}</span>
           <p className="form__information-message">{props.profileInfoMessage}</p>
-          <button className={`profile-form__submit-button ${!reallyValid &&
-            'profile-form__submit-button_disabled'}`} disabled={!reallyValid}>
+          <button className={`profile-form__submit-button ${!isNotSame &&
+            'profile-form__submit-button_disabled'}`} disabled={!isNotSame}>
             Редактировать</button>
         </form>
         <button className="profile__signout" type="button"

@@ -1,14 +1,13 @@
 import PageWithForm from "../PageWithForm/PageWithForm";
 import React from "react";
 import { useFormWithValidation } from '../../utils/FormValidator';
-import validator from 'validator';
 
 function Register(props) {
 
   const { values, handleChange, errors, isValid }
     = useFormWithValidation({name: '', email: '', password: ''});
 
-  const reallyValid = validator.isEmail(values.email) && isValid
+  const reallyValid = isValid && errors.email === '';
 
   function handleSubmit(evt) {
     evt.preventDefault();

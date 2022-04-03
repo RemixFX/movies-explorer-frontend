@@ -51,7 +51,7 @@ function App() {
   }
 
   React.useEffect(() => {
-    getUserMovies()
+    loggedIn === true && getUserMovies()
     if (localStorage.getItem(SORTED_MOVIES) !== null) {
       setIsSortMovies(JSON.parse(localStorage.getItem(SORTED_MOVIES)))
       checkResize(isSortMovies)
@@ -62,7 +62,7 @@ function App() {
     } else {
       checkResize(movies)
     }
-  }, [])
+  }, [loggedIn])
 
   React.useEffect(() => {
     changeClassButton()
@@ -168,7 +168,14 @@ function App() {
   // Поиск фильмов на странцие "Сохраненные фильмы"
   const findSavedMovies = (textInput) => {
     textInput.length === 0 && getUserMovies()
-    setIsSavedMovies(isStagedSavedMovies.filter((movie) => filterMovies(movie, textInput)))
+    const foundMovies = isStagedSavedMovies.filter((movie) => filterMovies(movie, textInput))
+    if (foundMovies.length !== 0) {
+      setIsSavedMovies(foundMovies)
+    } else {
+      setIsSavedMovies([])
+      setIsLoading(true)
+      showPreloaderMessage()
+    }
 
   }
 
@@ -258,6 +265,12 @@ function App() {
       .then((res) => {
         console.log(res)
         setLoggedIn(false)
+        setIsSortMovies([])
+        setMovies([])
+        localStorage.removeItem(SORTED_MOVIES)
+        localStorage.removeItem(MOVIES)
+        localStorage.removeItem(CHECKBOX)
+        localStorage.removeItem(TEXT)
         navigate('/')
       })
   }
@@ -359,6 +372,8 @@ function App() {
             component={SavedMovies}
             loggedIn={loggedIn}
             movies={isSavedMovies}
+            isLoading={isLoading}
+            isEmptyResult={isEmptyResult}
             onMovieButtonClick={deleteMovie}
             onFindMovies={findSavedMovies} />}
           />

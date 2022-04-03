@@ -64,6 +64,10 @@
   opacity: 0.7;
 }
 
+.form__submit-button_disabled:hover {
+  cursor: default;
+}
+
 .form__container {
   display: flex;
   align-items: center;

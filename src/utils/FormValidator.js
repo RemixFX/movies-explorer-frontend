@@ -1,4 +1,5 @@
 import React, { useCallback } from "react";
+import validator from 'validator';
 
 //хук управления формой и валидации формы
 export function useFormWithValidation(props) {
@@ -6,12 +7,20 @@ export function useFormWithValidation(props) {
   const [errors, setErrors] = React.useState({});
   const [isValid, setIsValid] = React.useState(false);
 
-  const handleChange = (evt) => {
-    const name = evt.target.name;
-    const value = evt.target.value;
+  const handleChange = (event) => {
+    const target = event.target;
+    const name = target.name;
+    const value = target.value;
     setValues({...values, [name]: value});
-    setErrors({...errors, [name]: evt.target.validationMessage });
-    setIsValid(evt.target.closest("form").checkValidity())
+
+    const validEmail = name === 'email' ? validator.isEmail(value) : true;
+
+    setErrors({...errors, [name]: event.target.validationMessage})
+    if (name === 'email' && !validEmail && value.includes('@')) {
+      setErrors({...errors, [name]: 'Осталось ввести домен верхнего уровня, после знака @'});
+    }
+    setIsValid(event.target.closest("form").checkValidity())
+
   };
 
   const resetForm = useCallback(
