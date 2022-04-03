@@ -2,7 +2,7 @@
 import React from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext"
 import moviesApi from "../../utils/MoviesApi";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import Login from "../Login/Login";
 import Main from "../Main/Main"
 import Movies from "../Movies/Movies"
@@ -51,7 +51,6 @@ function App() {
   }
 
   React.useEffect(() => {
-    loggedIn === true && getUserMovies()
     if (localStorage.getItem(SORTED_MOVIES) !== null) {
       setIsSortMovies(JSON.parse(localStorage.getItem(SORTED_MOVIES)))
       checkResize(isSortMovies)
@@ -62,7 +61,7 @@ function App() {
     } else {
       checkResize(movies)
     }
-  }, [loggedIn])
+  }, [])
 
   React.useEffect(() => {
     changeClassButton()
@@ -98,6 +97,9 @@ function App() {
   const getUserMovies = () => {
     mainApi.getSavedMovies()
       .then((res) => {
+        return res.filter((m) => m.owner === currentUser._id)
+      })
+      .then((res) => {
         setIsSavedMovies(res)
         setIsStagedSavedMovies(res)
       })
@@ -105,6 +107,10 @@ function App() {
         console.log(err.message)
       })
   }
+
+  React.useEffect(() => {
+    getUserMovies()
+  }, [currentUser])
 
   // Фильтр по поиску
   function filterMovies(movie, textInput) {
@@ -321,10 +327,11 @@ function App() {
 
   // Функция кнопки, для удаления фильма на странице "Фильмы"
   const removeFromFavorite = (movie) => {
-    const forDelete = isSavedMovies.find((c) => c.movieId === movie.id)
+    const forDelete = isStagedSavedMovies.find((c) => c.movieId === movie.id)
     mainApi.deleteSavedMovie(forDelete._id)
       .then(() => {
         setIsSavedMovies((state) => state.filter((c) => c.movieId !== movie.id))
+        setIsStagedSavedMovies((state) => state.filter((c) => c.movieId !== movie.id))
       })
       .catch((err) => {
         console.log(`Ошибка: ${err.message}`)
@@ -363,7 +370,7 @@ function App() {
             isLoading={isLoading}
             isEmptyResult={isEmptyResult}
             onSort={sortMovies}
-            isSavedMovies={isSavedMovies}
+            isStagedSavedMovies={isStagedSavedMovies}
             searhErrorMessage={searhErrorMessage}
             addButtonClassName={isAddButtonClassName === false
               ? 'movies-list__button_disabled' : ''} />}
@@ -372,6 +379,7 @@ function App() {
             component={SavedMovies}
             loggedIn={loggedIn}
             movies={isSavedMovies}
+            isStagedSavedMovies={isStagedSavedMovies}
             isLoading={isLoading}
             isEmptyResult={isEmptyResult}
             onMovieButtonClick={deleteMovie}
@@ -384,9 +392,11 @@ function App() {
             onLogout={handleLogout}
             profileInfoMessage={infoMessage} />}
           />
-          <Route path="/signup" element={<Register onRegister={handleRegister}
-            infoMessage={infoMessage} />} />
-          <Route path="/signin" element={<Login onLogin={handleLogin}
+          <Route path="/signup" element={loggedIn ? <Navigate to="/" />
+            : <Register onRegister={handleRegister}
+              infoMessage={infoMessage} />} />
+          <Route path="/signin" element={loggedIn ? <Navigate to="/" />
+            : <Login onLogin={handleLogin}
             infoMessage={infoMessage} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -51,7 +51,7 @@ function Movies(props) {
         movies={props.movies}
         onButtonClick={props.onButtonClick}
         onMovieButtonClick={props.onMovieButtonClick}
-        isSavedMovies={props.isSavedMovies}
+        isStagedSavedMovies={props.isStagedSavedMovies}
         classMovieButton={'movies-card__like-button'}
         addButtonClassName={props.addButtonClassName} />
       < Preloader isLoading={props.isLoading}

@@ -37,6 +37,7 @@ function SavedMovies(props) {
         movies={checked ? props.movies.filter(movie => movie.duration <= 40)
           : props.movies}
         onMovieButtonClick={props.onMovieButtonClick}
+        isStagedSavedMovies={props.isStagedSavedMovies}
         classMovieButton="movies-card__delete-button" />
       < Preloader isLoading={props.isLoading}
         isEmptyResult={props.isEmptyResult} />

@@ -1,7 +1,9 @@
 import React from "react";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function MoviesCard(props) {
 
+  const currentUser = React.useContext(CurrentUserContext);
   const duration = props.movie.duration;
   const durationMovie = (
     duration < 60 ? `${duration}м` : `${Math.trunc(duration / 60)}ч ${duration % 60}м`
@@ -13,9 +15,8 @@ function MoviesCard(props) {
   )
 
   const isLiked = (
-    !props.movie.owner && props.isSavedMovies.some((m) => m.movieId === props.movie.id)
+    props.movie.owner !== currentUser._id && props.isStagedSavedMovies.some((m) => m.movieId === props.movie.id)
   )
-
   const handleButtonClick = () => {
     props.onMovieButtonClick(props.movie, isLiked)
   }

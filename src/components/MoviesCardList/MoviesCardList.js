@@ -12,7 +12,7 @@ function MoviesCardList(props) {
         {props.movies.map((movie) =>
           <MoviesCard movie={movie} key={movie.id || movie.movieId}
             onMovieButtonClick={props.onMovieButtonClick}
-            isSavedMovies={props.isSavedMovies}
+            isStagedSavedMovies={props.isStagedSavedMovies}
             classMovieButton={props.classMovieButton}
              />
         )}
