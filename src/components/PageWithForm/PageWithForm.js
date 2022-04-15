@@ -8,9 +8,12 @@ function PageWithForm(props) {
         <img className="page-form__logo" src={logo} alt="логотип зеленый круг" />
       </Link>
       <h2 className="page-form__header">{props.header}</h2>
-      <form className="form">
+      <form className="form" onSubmit={props.onSubmitForm} noValidate>
         {props.children}
-        <button className={`form__submit-button ${props.additionalClass}`}>
+        <p className="form__information-message">{props.infoMessage}</p>
+        <button className={`form__submit-button ${!props.reallyValid &&
+          'form__submit-button_disabled'} ${props.additionalClass}`}
+          type="submit" disabled={!props.reallyValid} >
           {props.buttonName}</button>
         <div className="form__container">
           <p className="form__container-heading" >{props.registerText}</p>

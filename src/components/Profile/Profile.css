@@ -63,8 +63,18 @@
   min-height: 12px;
 }
 
+.form__information-message {
+  min-height: 40px;
+  margin: 0;
+  padding-top: 10px;
+  font-size: 15px;
+  line-height: 16px;
+  color: #EE3465;
+  text-align: center;
+}
+
 .profile-form__submit-button {
-  margin-top: 200px;
+  margin-top: 150px;
   font-size: 13px;
   line-height: 15.73px;
   color: #FFFFFF;
@@ -76,6 +86,15 @@
 
 .profile-form__submit-button:hover {
   opacity: 0.7;
+}
+
+.profile-form__submit-button_disabled {
+  color: #5b5b5b;
+}
+
+.profile-form__submit-button_disabled:hover {
+  cursor: default;
+  opacity: 1;
 }
 
 .profile__signout {
@@ -103,7 +122,7 @@
   }
 
   .profile-form__submit-button {
-    margin-top: 190px;
+    margin-top: 140px;
   }
 }
 
@@ -118,8 +137,13 @@
     width: 260px;
   }
 
+  .form__information-message {
+    font-size: 12px;
+    line-height: 14px;
+  }
+
   .profile-form__submit-button {
-    margin-top: 359px;
+    margin-top: 309px;
     font-size: 12px;
     line-height: 14.52px;
   }

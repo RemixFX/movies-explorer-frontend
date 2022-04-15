@@ -62,31 +62,6 @@
   opacity: 0.7;
 }
 
-.header__profile {
-  display: flex;
-  align-items: center;
-  margin-left: 61px;
-  text-decoration: none;
-  transition: all 0.1s linear;
-}
-
-.header__profile:hover {
-  opacity: 0.7;
-}
-
-.header__profile-text {
-  font-size: 13px;
-  line-height: 12px;
-  font-weight: 500;
-  color: #FFFFFF;
-}
-
-.header__profile-logo {
-  height: 26px;
-  width: 26px;
-  padding-left: 7px;
-}
-
 .header__menu-button {
   display: none;
 }
@@ -115,13 +90,14 @@
   background-image: url(../../images/close-button.svg);
   width: 22px;
   height: 22px;
+  position: absolute;
   align-self: flex-end;
   background-color: transparent;
   background-position: center;
   border: none;
   cursor: pointer;
-  margin-top: 27.4px;
-  margin-right: 27.4px;
+  top: 27px;
+  right: 60px;
   transition: all 0.1s linear;
 }
 
@@ -133,6 +109,7 @@
   width: 67.7%;
   height: 100vh;
   display: flex;
+  position: relative;
   align-items: center;
   flex-direction: column;
   background-color: #202020;
@@ -190,10 +167,6 @@
     cursor: pointer;
   }
 
-  .header__profile {
-    margin: 0;
-    margin-top: 50vh;
-  }
 }
 
 @media screen and (max-width: 420px) {
@@ -221,7 +194,8 @@
     width: 100%;
   }
 
-  .header__profile {
-    margin-top: 56vh;
+  .popup__close-button {
+    top: 22px;
+    right: 22px;
   }
 }

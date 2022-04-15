@@ -7,17 +7,17 @@ import Portfolio from "../Portfolio/Portfolio";
 import Promo from "../Promo/Promo";
 import Techs from "../Techs/Techs";
 
-function Main() {
+function Main(props) {
   return(
     <main className="content">
-      <Header></Header>
-      <Promo></Promo>
-      <NavTab></NavTab>
+      <Header loggedIn={props.loggedIn} />
+      <Promo />
+      <NavTab />
       <AboutProject />
       <Techs/>
       <AboutMe />
-      <Portfolio></Portfolio>
-      <Footer></Footer>
+      <Portfolio />
+      <Footer />
   </main>
   )
 }
